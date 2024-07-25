@@ -7,3 +7,5 @@
 docker-compose up
 ```
 
+## Схема бд
+![](assets/farpost_databases_schema.png)
