@@ -9,3 +9,5 @@ POSTGRES_PORT = os.getenv("POSTGRES_PORT")
 POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 
+output_directory_name = "output_directory"
+

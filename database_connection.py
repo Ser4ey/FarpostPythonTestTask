@@ -19,7 +19,7 @@ class DatabaseConnection:
         try:
             connection_string = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
             self.engine = create_engine(connection_string)
-            logging.info(f"Успешное подключение к базе данных: {database}.")
+            logging.info(f"Успешное подключение к базе данных: {database}")
         except Exception as er:
             logging.error(f"Ошибка при подключении к базе данных: {er}")
             raise

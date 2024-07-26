@@ -32,14 +32,16 @@ class ReportCreator:
             - `login_count`: Количество входов на сайт (0, если данных нет).
             - `logout_count`: Количество выходов с сайта (0, если данных нет).
         """
+        if user_logs_df.empty:
+            # Возвращаем пустой DataFrame с нужными столбцами, если входной DataFrame пуст
+            return pd.DataFrame(columns=[
+                'user_id', 'day', 'blog_event_count', 'login_count', 'logout_count'
+            ])
+
         user_logs_df['day'] = pd.to_datetime(user_logs_df['day'])
 
         # получение уникальных комбинаций `user_id` и `day`
         unique_user_day_df = user_logs_df[['user_id', 'day']].drop_duplicates()
-
-        # получаем кол-во действий внутри блога
-        blog_events = user_logs_df[user_logs_df['space_type_name'] == 'blog']
-        blog_counts = blog_events.groupby(['user_id', 'day']).size().reset_index(name='blog_event_count')
 
         # получаем кол-во входов/выходов на сайт
         login_logout_events = user_logs_df[user_logs_df['event_type_name'].isin(['login', 'logout'])]
@@ -47,13 +49,17 @@ class ReportCreator:
             fill_value=0).reset_index()
         login_logout_counts.columns = ['user_id', 'day', 'login_count', 'logout_count']
 
-        # формируем финальный датафрейм
-        final_df = pd.merge(unique_user_day_df, blog_counts, on=['user_id', 'day'], how='left')
-        final_df['blog_event_count'] = final_df['blog_event_count'].fillna(0).astype(int)
+        # получаем кол-во действий внутри блога
+        blog_events = user_logs_df[user_logs_df['space_type_name'] == 'blog']
+        blog_counts = blog_events.groupby(['user_id', 'day']).size().reset_index(name='blog_event_count')
 
-        final_df = pd.merge(final_df, login_logout_counts, on=['user_id', 'day'], how='left')
+        # формируем финальный датафрейм
+        final_df = pd.merge(unique_user_day_df, login_logout_counts, on=['user_id', 'day'], how='left')
         final_df['login_count'] = final_df['login_count'].fillna(0).astype(int)
         final_df['logout_count'] = final_df['logout_count'].fillna(0).astype(int)
+
+        final_df = pd.merge(final_df, blog_counts, on=['user_id', 'day'], how='left')
+        final_df['blog_event_count'] = final_df['blog_event_count'].fillna(0).astype(int)
 
         # сортируем результат
         final_df = final_df.sort_values(by=['user_id', 'day'])
