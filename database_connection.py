@@ -36,7 +36,7 @@ class DatabaseConnection:
             with self.engine.connect() as connection:
                 result = connection.execute(text(query), params)
                 return result
-        except SQLAlchemyError as e:
-            logging.error(f"Ошибка выполнения SQL-запроса: {e}")
+        except SQLAlchemyError as er:
+            logging.error(f"Ошибка выполнения SQL-запроса: {er}")
             raise
 
