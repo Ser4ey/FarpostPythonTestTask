@@ -12,7 +12,7 @@ class LogsDatabaseRequests:
         """
         Получаем логи всех пользователей:
         - logs.user_id AS user_id (id пользователя)
-        - DATE(logs.datetime) AS day (день совершения лога)
+        - logs.datetime AS datetime (дата)
         - event_type.name AS event_type_name (тип действия)
         - space_type.name AS space_type_name (тип пространства)
 
@@ -22,7 +22,7 @@ class LogsDatabaseRequests:
         query = """
             SELECT
                 logs.user_id AS user_id,
-                DATE(logs.datetime) AS day,
+                logs.datetime AS datetime,
                 event_type.name AS event_type_name,
                 space_type.name AS space_type_name
             FROM logs
@@ -37,7 +37,7 @@ class LogsDatabaseRequests:
         """
         Получаем логи конкретного пользователя по user_id
         - logs.user_id AS user_id (id пользователя)
-        - DATE(logs.datetime) AS day (день совершения лога)
+        - logs.datetime AS datetime (дата)
         - event_type.name AS event_type_name (тип действия)
         - space_type.name AS space_type_name (тип пространства)
 
@@ -48,7 +48,7 @@ class LogsDatabaseRequests:
         query = """
             SELECT
                 logs.user_id AS user_id,
-                DATE(logs.datetime) AS day,
+                logs.datetime AS datetime,
                 event_type.name AS event_type_name,
                 space_type.name AS space_type_name
             FROM logs
