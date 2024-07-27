@@ -45,8 +45,12 @@ class ReportCreator:
 
         # получаем кол-во входов/выходов на сайт
         login_logout_events = user_logs_df[user_logs_df['event_type_name'].isin(['login', 'logout'])]
+        # print(login_logout_events)
+
         login_logout_counts = login_logout_events.groupby(['user_id', 'day', 'event_type_name']).size().unstack(
             fill_value=0).reset_index()
+        login_logout_counts = login_logout_counts.reindex(columns=['user_id', 'day', 'login', 'logout'], fill_value=0)
+
         login_logout_counts.columns = ['user_id', 'day', 'login_count', 'logout_count']
 
         # получаем кол-во действий внутри блога
