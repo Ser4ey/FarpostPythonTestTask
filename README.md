@@ -1,7 +1,7 @@
 # Farpost Python Test Task
 Этот проект представляет собой тестовое задание на Python для компании Farpost.
 
-**Текущий прогресс: 85%**
+**Текущий прогресс: 100%**
 
 ## Установка и запуск
 Для запуска PostgreSQL и миграций Liquibase используйте следующую команду:
@@ -57,9 +57,8 @@ python main.py
 .csv поля _user_id_ и _login_.
 
 ## Дополнение
-Напишу тесты (в процессе) для:
+Написал тесты для:
 - [ReportCreator](report_creator.py)
-- [DatabaseConnection](database_connection.py)
 
 ## Схема бд
 <img src="assets/farpost_databases_schema.png" alt="Схема БД" width="800">
