@@ -94,7 +94,7 @@ class AuthorsDatabaseRequests:
 
         - blog.name AS blog_name (название блога)
         - blog.owner_id AS blog_owner_id (id владельца блога)
-        - blog.owner_id->author.login AS blog_owner_login (название блога)
+        - blog.owner_id->author.login AS blog_owner_login (login владельца блога)
 
         - post.header AS post_header (заголовок поста)
 
@@ -127,7 +127,7 @@ class AuthorsDatabaseRequests:
 
         - blog.name AS blog_name (название блога)
         - blog.owner_id AS blog_owner_id (id владельца блога)
-        - blog.owner_id->author.login AS blog_owner_login (название блога)
+        - blog.owner_id->author.login AS blog_owner_login (login владельца блога)
 
         - post.header AS post_header (заголовок поста)
 

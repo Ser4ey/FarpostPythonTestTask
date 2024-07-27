@@ -1,5 +1,6 @@
 import logging
 import os
+from datetime import datetime
 
 import config
 from database_connection import DatabaseConnection
@@ -12,8 +13,12 @@ def create_output_directory_if_not_exist():
         os.makedirs(config.output_directory_name)
 
 
+def generate_report_filename(report_name: str, user_login: str, extension=".csv"):
+    return f"{report_name}_of_{user_login}__{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}{extension}"
+
+
 def main():
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     host = config.POSTGRES_HOST
     port = config.POSTGRES_PORT
@@ -40,14 +45,18 @@ def main():
     # формирования отчёта comments.csv (заменён на posts.csv так как отчёт comments.csv сформировать не получится)
     logging.info(f"Формируем отчёт posts.csv")
     user_posts = AuthorsDatabaseRequests.get_one_author_posts(authors_db_con, user_login)
-    user_posts.to_csv(os.path.join(config.output_directory_name, "posts.csv"), index=False)
+    user_posts.to_csv(
+        os.path.join(config.output_directory_name, generate_report_filename("posts", user_login)
+    ), index=False)
     logging.info(f"Отчёт posts.csv успешно сформирован")
 
     # формирования отчёта general.csv
     logging.info(f"Формируем отчёт general.csv")
     user_logs = LogsDatabaseRequests.get_one_user_logs(logs_db_con, user_id)
     final_log_report = ReportCreator.create_general_user_logs_report(user_logs)
-    final_log_report.to_csv(os.path.join(config.output_directory_name, "general.csv"), index=False)
+    final_log_report.to_csv(os.path.join(
+        config.output_directory_name, generate_report_filename("general", user_login)
+    ), index=False)
     logging.info(f"Отчёт general.csv успешно сформирован")
 
 
