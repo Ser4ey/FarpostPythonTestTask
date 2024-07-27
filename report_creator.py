@@ -65,6 +65,13 @@ class ReportCreator:
         final_df = pd.merge(final_df, blog_counts, on=['user_id', 'datetime'], how='left')
         final_df['blog_event_count'] = final_df['blog_event_count'].fillna(0).astype(int)
 
+        # Исключаем строки с нулевыми счетчиками
+        final_df = final_df[
+            (final_df['login_count'] > 0) |
+            (final_df['logout_count'] > 0) |
+            (final_df['blog_event_count'] > 0)
+        ]
+
         # сортируем результат
         final_df = final_df.sort_values(by=['user_id', 'datetime'])
 
