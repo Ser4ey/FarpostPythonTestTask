@@ -1,4 +1,4 @@
-user_id,day,login_count,logout_count,blog_event_count
+user_id,datetime,login_count,logout_count,blog_event_count
 3,2024-07-26,0,1,0
 3,2024-07-27,2,1,0
 3,2025-07-27,0,0,1
